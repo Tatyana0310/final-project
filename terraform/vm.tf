@@ -33,9 +33,9 @@ resource "yandex_compute_instance" "bastion" {
     ssh-keys = "ubuntu:${file("~/.ssh/id_ed25519.pub")}"
   }
 
-  scheduling_policy {
-    preemptible = true
-  }
+  #scheduling_policy {
+  #  preemptible = true
+  #}
   
   lifecycle {
     ignore_changes = [boot_disk[0].initialize_params[0].image_id]
@@ -72,9 +72,9 @@ resource "yandex_compute_instance" "web-1" {
     user-data = file("cloud-init.yml")
   }
 
-  scheduling_policy {
-    preemptible = true
-  }
+  #scheduling_policy {
+  #  preemptible = true
+  #}
 
    lifecycle {
     ignore_changes = [boot_disk[0].initialize_params[0].image_id]
@@ -110,9 +110,9 @@ resource "yandex_compute_instance" "web-2" {
     user-data = file("cloud-init.yml")
   }
 
-  scheduling_policy {
-    preemptible = true
-  }
+  #scheduling_policy {
+  #  preemptible = true
+  #}
 
   lifecycle {
     ignore_changes = [boot_disk[0].initialize_params[0].image_id]
@@ -148,9 +148,9 @@ resource "yandex_compute_instance" "zabbix" {
         user-data = file("cloud-init.yml")
   }
 
-  scheduling_policy {
-    preemptible = true
-  }
+  #scheduling_policy {
+  #  preemptible = true
+  #}
 
   lifecycle {
     ignore_changes = [boot_disk[0].initialize_params[0].image_id]
@@ -186,9 +186,9 @@ resource "yandex_compute_instance" "kibana" {
        user-data = file("cloud-init.yml")
   }
 
-  scheduling_policy {
-    preemptible = true
-  }
+  #scheduling_policy {
+  #  preemptible = true
+  #}
 
   lifecycle {
     ignore_changes = [boot_disk[0].initialize_params[0].image_id]
@@ -225,9 +225,9 @@ resource "yandex_compute_instance" "elasticsearch" {
     user-data = file("cloud-init.yml")
   }
 
-  scheduling_policy {
-    preemptible = true
-  }
+  #scheduling_policy {
+  #  preemptible = true
+  #}
 
   lifecycle {
     ignore_changes = [boot_disk[0].initialize_params[0].image_id]
