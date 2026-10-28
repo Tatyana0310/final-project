@@ -1,0 +1,35 @@
+---
+- name: Install Elasticsearch whith Docker
+  hosts: elasticsearch
+  become: yes
+  tasks:
+    - name: Install Docker and Python SDK
+      apt:
+        name:
+          - docker.io
+          - python3-pip
+        state: present
+        update_cache: yes
+
+    - name: Install Docker SDK for Python
+      pip:
+        name: docker
+
+    - name: Start Docker
+      service:
+        name: docker
+        state: started
+        enabled: yes
+
+    - name: Run Elasticsearch container
+      docker_container:
+        name: elasticsearch
+        image: docker.elastic.co/elasticsearch/elasticsearch:8.15.0
+        state: started
+        restart_policy: always
+        ports:
+          - "9200:9200"
+        env:
+          discovery.type: "single-node"
+          xpack.security.enabled: "false"
+          ES_JAVA_OPTS: "-Xms512m -Xmx512m"

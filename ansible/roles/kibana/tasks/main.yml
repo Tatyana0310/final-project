@@ -1,0 +1,31 @@
+---
+- name: Install Kibana from local deb
+  hosts: kibana
+  become: yes
+  tasks:
+    - name: Copy Kibana deb to server
+      copy:
+        src: /home/ubuntu/kibana.deb
+        dest: /tmp/kibana.deb
+
+    - name: Install Kibana package
+      apt:
+        deb: /tmp/kibana.deb
+
+    - name: Configure Kibana to connect to Elasticsearch
+      lineinfile:
+        path: /etc/kibana/kibana.yml
+        regexp: '^#?elasticsearch.hosts:'
+        line: 'elasticsearch.hosts: ["http://elasticsearch.ru-central1.internal:9200"]'
+
+    - name: Allow external connections to Kibana
+      lineinfile:
+        path: /etc/kibana/kibana.yml
+        regexp: '^#?server.host:'
+        line: 'server.host: "0.0.0.0"'
+
+    - name: Start and enable Kibana
+      service:
+        name: kibana
+        state: started
+        enabled: yes

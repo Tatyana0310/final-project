@@ -1,0 +1,35 @@
+---
+
+- name: Setup Web Servers
+  hosts: web
+  become: yes
+  roles:
+    - nginx
+    - nginx_site
+    - filebeat
+
+- name: Setup Elasticsearch
+  hosts: elasticsearch
+  become: yes
+  roles:
+    - elasticsearch
+
+
+- name: Setup Kibana
+  hosts: kibana
+  become: yes
+  roles:
+    - kibana
+
+
+- name: Setup Zabbix Server
+  hosts: zabbix
+  become: yes
+  roles:
+    - zabbix_server
+
+- name: Setup Zabbix Agents
+  hosts: web:elasticsearch:kibana
+  become: yes
+  roles:
+    - zabbix_agent
