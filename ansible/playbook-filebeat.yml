@@ -1,0 +1,38 @@
+---
+- name: Install Filebeat from local deb
+  hosts: web
+  become: yes
+  tasks:
+    - name: Copy Filebeat deb to servers
+      copy:
+        src: /home/ubuntu/filebeat.deb
+        dest: /tmp/filebeat.deb
+
+    - name: Install Filebeat package
+      apt:
+        deb: /tmp/filebeat.deb
+
+    - name: Configure Filebeat to read Nginx logs and send to Elasticsearch
+      copy:
+        dest: /etc/filebeat/filebeat.yml
+        content: |
+          filebeat.inputs:
+          - type: filestream
+            id: nginx-access
+            enabled: true
+            paths:
+              - /var/log/nginx/access.log
+          - type: filestream
+            id: nginx-error
+            enabled: true
+            paths:
+              - /var/log/nginx/error.log
+          
+          output.elasticsearch:
+            hosts: ["http://elasticsearch.ru-central1.internal:9200"]
+    
+    - name: Start and enable Filebeat
+      service:
+        name: filebeat
+        state: started
+        enabled: yes

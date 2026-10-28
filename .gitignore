@@ -1,0 +1,16 @@
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.backup
+.terraform.lock.hcl
+
+# SSH и секреты
+*.pem
+id_ed25519*
+key.json
+
+# Ansible
+*.retry*.stackdump
+
+*.deb
+*.tar.gz

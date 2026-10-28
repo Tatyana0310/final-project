@@ -1,0 +1,13 @@
+#cloud-config
+users:
+  - name: ubuntu
+    groups: sudo
+    shell: /bin/bash
+    sudo: 'ALL=(ALL) NOPASSWD:ALL'
+    ssh_authorized_keys:
+      - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKH/+WOUQUgc8IxTGQFW2uFw/dVezUKBUbYlFKctXRoI user@DESKTOP-4TF0VBB
+chpasswd:
+  list: |
+    ubuntu:ubuntu
+  expire: false
+ssh_pwauth: true
